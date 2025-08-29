@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宝宝七夕节快乐</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        tanabata: {
+                            pink: '#F8C8DC',
+                            light: '#FFF5F8',
+                            dark: '#D895B3',
+                            gold: '#FFE4B5',
+                            night: '#0A0A23'
+                        }
+                    },
+                    fontFamily: {
+                        romantic: ['"Microsoft YaHei"', '"PingFang SC"', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-glow {
+                text-shadow: 0 0 10px rgba(216, 149, 179, 0.4);
+            }
+            .text-glow-night {
+                text-shadow: 0 0 15px rgba(255, 228, 181, 0.8), 0 0 30px rgba(255, 228, 181, 0.5);
+            }
+            .bg-soft-gradient {
+                background: linear-gradient(135deg, #FFF5F8 0%, #F8C8DC 40%, #FFF 100%);
+                background-size: 200% 200%;
+                animation: bgFlow 22s ease infinite;
+            }
+            .bg-night {
+                background: #0A0A23;
+                background-image: 
+                    radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+                    radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),
+                    radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);
+                background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;
+                background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+            }
+            .card-lift {
+                transition: transform 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease, background-color 0.6s ease;
+            }
+            .card-lift:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 20px 35px rgba(216, 149, 179, 0.2);
+            }
+            .card-night {
+                background-color: rgba(255,255,255,0.15) !important;
+                border-color: rgba(255,228,181,0.3) !important;
+                box-shadow: 0 20px 35px rgba(255,228,181,0.1) !important;
+            }
+            .star-text {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                opacity: 0;
+                transition: opacity 2s ease 1s;
+                z-index: 20;
+            }
+            .music-control {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                z-index: 100;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: rgba(248, 200, 220, 0.8);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+                transition: all 0.3s ease;
+            }
+            .music-control:hover {
+                transform: scale(1.1);
+                background: rgba(248, 200, 220, 1);
+            }
+            .music-control.night {
+                background: rgba(255, 228, 181, 0.8);
+            }
+            .music-control.night:hover {
+                background: rgba(255, 228, 181, 1);
+            }
+            .music-info {
+                position: fixed;
+                bottom: 70px;
+                right: 20px;
+                z-index: 100;
+                background: rgba(255, 255, 255, 0.8);
+                padding: 8px 12px;
+                border-radius: 20px;
+                font-size: 12px;
+                color: #D895B3;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            .music-info.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            .music-info.night {
+                background: rgba(10, 10, 35, 0.8);
+                color: #FFE4B5;
+            }
+        }
+
+        @keyframes bgFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 樱花样式优化 */
+        .sakura-petal {
+            position: absolute;
+            pointer-events: none;
+            background: linear-gradient(135deg, #F8C8DC 0%, #FFF5F8 100%);
+            border-radius: 50% 50% 50% 0;
+            transform-origin: center;
+            animation: sakuraFloat 15s linear infinite;
+            opacity: 0.8;
+            z-index: 5;
+        }
+        
+        .sakura-petal:nth-child(4n) {
+            border-radius: 50% 0 50% 50%;
+        }
+        
+        .sakura-petal:nth-child(3n) {
+            border-radius: 50%;
+            background: #FFF5F8;
+        }
+        
+        .sakura-petal:nth-child(5n) {
+            background: linear-gradient(135deg, #FFE4B5 0%, #FFF5F8 100%);
+        }
+        
+        @keyframes sakuraFloat {
+            0% {
+                transform: translateY(-10%) rotate(0deg) translateX(0) scale(0.8);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateY(50vh) rotate(180deg) translateX(20px) scale(1);
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg) translateX(-20px) scale(0.8);
+                opacity: 0;
+            }
+        }
+        
+        /* 真实感烟花优化 */
+        .firework-launcher {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #FFF;
+            opacity: 0.8;
+            box-shadow: 0 0 3px #FFF;
+            z-index: 10;
+            animation: fireworkLaunch 1.5s ease-out forwards;
+        }
+        
+        .firework {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            opacity: 0;
+            transform-origin: center;
+            animation: fireworkBurst 1s ease-out forwards;
+        }
+        
+        .firework-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            opacity: 0;
+            transform-origin: center;
+            animation: particleTrail 1s ease-out forwards;
+        }
+        
+        @keyframes fireworkLaunch {
+            0% {
+                transform: translateY(100vh);
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(var(--launch-height));
+                opacity: 0;
+            }
+        }
+        
+        @keyframes fireworkBurst {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes particleTrail {
+            0% {
+                transform: translate(0, 0) scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(1);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen overflow-x-hidden bg-soft-gradient font-romantic relative" id="body">
+    <div id="sakura-container" class="absolute inset-0 z-0"></div>
+    <div id="firework-container" class="absolute inset-0 z-15 pointer-events-none"></div>
+    <div class="star-text" id="star-text">
+        <h2 class="text-[clamp(2rem,6vw,3.5rem)] font-bold text-tanabata-gold text-glow-night">宝宝七夕节快乐(◍•ᴗ•◍)❤</h2>
+    </div>
+
+    <!-- 音乐控制按钮 -->
+    <div class="music-control" id="music-control">
+        <i class="fa fa-music text-tanabata-dark"></i>
+    </div>
+    
+    <!-- 音乐信息显示 -->
+    <div class="music-info" id="music-info">
+        正在播放: 七夕情歌
+    </div>
+
+    <div class="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-20" id="main-content">
+        <div class="text-center mb-16" id="title-area">
+            <h1 class="text-[clamp(2.5rem,8vw,4.5rem)] font-bold text-tanabata-dark text-glow mb-6" id="main-title">
+                宝宝七夕节快乐
+            </h1>
+            <p class="text-[clamp(1rem,3vw,1.4rem)] text-tanabata-dark/80 max-w-2xl mx-auto leading-relaxed" id="sub-title">
+                樱花漫过鹊桥路，星光缀满相思语<br>
+                愿每一份深情，都能岁岁相伴
+            </p>
+            <div class="flex justify-center gap-6 mt-8" id="decor-icons">
+                <i class="fa fa-moon-o text-tanabata-gold text-[clamp(1.5rem,5vw,2.5rem)]"></i>
+                <i class="fa fa-heart text-tanabata-pink text-[clamp(1.5rem,5vw,2.5rem)]"></i>
+                <i class="fa fa-star text-tanabata-gold text-[clamp(1.5rem,5vw,2.5rem)]"></i>
+            </div>
+        </div>
+
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-10 max-w-lg w-full shadow-xl border border-tanabata-pink/20 card-lift" id="wish-card">
+            <div class="text-center mb-8" id="card-icon">
+                <i class="fa fa-pagelines text-tanabata-dark text-5xl"></i>
+            </div>
+            <p class="text-tanabata-dark/90 text-[clamp(1.1rem,3vw,1.3rem)] leading-relaxed text-center italic mb-8" id="poem-text">
+                宝宝这是我们第一次过七夕节。<br>
+                虽然我们现在是异地恋但是我相信我们能走到一起
+            </p>
+            <p class="text-tanabata-dark/80 text-[clamp(1rem,2.5vw,1.15rem)] text-center" id="wish-text">
+                宝宝这个七夕，藏着一份小惊喜<br>
+                点击按钮，解锁属于宝宝的浪漫夜空
+            </p>
+
+            <div class="mt-12 text-center">
+                <button id="surprise-btn" class="bg-tanabata-dark hover:bg-tanabata-dark/90 text-white py-4 px-10 rounded-full text-xl font-medium transition-all duration-400 shadow-lg hover:shadow-tanabata-pink/30">
+                    <i class="fa fa-magic mr-3"></i> 点击有惊喜
+                </button>
+            </div>
+        </div>
+
+        <div class="absolute bottom-8 text-tanabata-dark/60 text-sm text-center" id="copyright">
+            <p>宝宝七夕节快乐</p>
+        </div>
+    </div>
+
+    <!-- 音频元素 -->
+    <audio id="bgm" loop>
+        <!-- 由于网易云音乐链接有跨域限制，这里使用一个替代方案 -->
+        <!-- 实际使用时请替换为可直接播放的音频链接 -->
+        <source src="https://music.163.com/song/media/outer/url?id=1403318151.mp3" type="audio/mpeg">
+        您的浏览器不支持音频元素。
+    </audio>
+
+    <script>
+        const body = document.getElementById('body');
+        const sakuraContainer = document.getElementById('sakura-container');
+        const fireworkContainer = document.getElementById('firework-container');
+        const starText = document.getElementById('star-text');
+        const surpriseBtn = document.getElementById('surprise-btn');
+        const mainContent = document.getElementById('main-content');
+        const wishCard = document.getElementById('wish-card');
+        const titleArea = document.getElementById('title-area');
+        const mainTitle = document.getElementById('main-title');
+        const subTitle = document.getElementById('sub-title');
+        const decorIcons = document.getElementById('decor-icons');
+        const cardIcon = document.getElementById('card-icon');
+        const poemText = document.getElementById('poem-text');
+        const wishText = document.getElementById('wish-text');
+        const copyright = document.getElementById('copyright');
+        const musicControl = document.getElementById('music-control');
+        const musicInfo = document.getElementById('music-info');
+        const bgm = document.getElementById('bgm');
+
+        const maxSakura = 28;
+        let isNight = false;
+        let hasTriggered = false;
+        let isMusicPlaying = false;
+        let musicInfoTimeout = null;
+
+        // 音乐控制
+        musicControl.addEventListener('click', function() {
+            if (isMusicPlaying) {
+                bgm.pause();
+                musicControl.innerHTML = '<i class="fa fa-music text-tanabata-dark"></i>';
+                musicInfo.textContent = "音乐已暂停";
+            } else {
+                bgm.play().catch(e => {
+                    console.log("自动播放被阻止，需要用户交互");
+                    musicInfo.textContent = "点击页面任意处播放音乐";
+                });
+                musicControl.innerHTML = '<i class="fa fa-pause text-tanabata-dark"></i>';
+                musicInfo.textContent = "正在播放: 七夕情歌";
+            }
+            
+            // 显示音乐信息
+            musicInfo.classList.add('show');
+            if (musicInfoTimeout) clearTimeout(musicInfoTimeout);
+            musicInfoTimeout = setTimeout(() => {
+                musicInfo.classList.remove('show');
+            }, 3000);
+            
+            isMusicPlaying = !isMusicPlaying;
+        });
+
+        // 点击页面任意处尝试播放音乐
+        document.addEventListener('click', function() {
+            if (!hasTriggered && bgm.paused) {
+                bgm.play().then(() => {
+                    isMusicPlaying = true;
+                    musicControl.innerHTML = '<i class="fa fa-pause text-tanabata-dark"></i>';
+                    musicInfo.textContent = "正在播放: 七夕情歌";
+                    musicInfo.classList.add('show');
+                    if (musicInfoTimeout) clearTimeout(musicInfoTimeout);
+                    musicInfoTimeout = setTimeout(() => {
+                        musicInfo.classList.remove('show');
+                    }, 3000);
+                }).catch(e => {
+                    console.log("音乐播放需要用户交互");
+                });
+            }
+        });
+
+        // 生成樱花花瓣（优化版）
+        function createSakuraPetal() {
+            if (document.querySelectorAll('.sakura-petal').length >= 25 || isNight) return;
+            
+            const petal = document.createElement('div');
+            petal.classList.add('sakura-petal');
+            
+            // 随机大小
+            const size = Math.random() * 12 + 8;
+            
+            // 随机位置
+            const left = Math.random() * 100;
+            
+            // 随机延迟和持续时间
+            const delay = Math.random() * 5;
+            const duration = Math.random() * 10 + 15;
+            
+            // 随机透明度
+            const opacity = Math.random() * 0.3 + 0.5;
+            
+            // 应用样式
+            petal.style.width = `${size}px`;
+            petal.style.height = `${size}px`;
+            petal.style.left = `${left}%`;
+            petal.style.animation = `sakuraFloat ${duration}s linear ${delay}s infinite`;
+            petal.style.opacity = opacity;
+            
+            sakuraContainer.appendChild(petal);
+            
+            // 自动移除
+            setTimeout(() => {
+                if (petal.parentNode) {
+                    petal.parentNode.removeChild(petal);
+                }
+            }, (duration + delay) * 1000);
+        }
+
+        // 生成真实感烟花
+        function createRealisticFirework() {
+            // 烟花发射位置
+            const launchX = Math.random() * 80 + 10;
+            const launchHeight = Math.random() * 30 + 30;
+            
+            // 创建发射器
+            const launcher = document.createElement('div');
+            launcher.classList.add('firework-launcher');
+            launcher.style.left = `${launchX}%`;
+            launcher.style.setProperty('--launch-height', `${launchHeight}vh`);
+            
+            fireworkContainer.appendChild(launcher);
+            
+            // 发射完成后创建爆炸效果
+            setTimeout(() => {
+                if (launcher.parentNode) {
+                    launcher.parentNode.removeChild(launcher);
+                }
+                
+                // 创建爆炸中心
+                const centerFirework = document.createElement('div');
+                centerFirework.classList.add('firework');
+                
+                const colors = ['#FF6B6B', '#4ECDC4', '#FFE4B5', '#F8C8DC', '#9D80FE', '#FF9A8B', '#FFCC67'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                centerFirework.style.left = `${launchX}%`;
+                centerFirework.style.top = `${launchHeight}vh`;
+                centerFirework.style.backgroundColor = color;
+                centerFirework.style.boxShadow = `0 0 20px ${color}, 0 0 40px ${color}`;
+                
+                fireworkContainer.appendChild(centerFirework);
+                
+                // 创建爆炸粒子
+                const particleCount = 60 + Math.floor(Math.random() * 40);
+                for (let i = 0; i < particleCount; i++) {
+                    setTimeout(() => {
+                        const particle = document.createElement('div');
+                        particle.classList.add('firework-particle');
+                        
+                        const angle = (i / particleCount) * Math.PI * 2;
+                        const distance = Math.random() * 80 + 70;
+                        
+                        const tx = Math.cos(angle) * distance;
+                        const ty = Math.sin(angle) * distance;
+                        
+                        particle.style.left = `${launchX}%`;
+                        particle.style.top = `${launchHeight}vh`;
+                        particle.style.setProperty('--tx', `${tx}px`);
+                        particle.style.setProperty('--ty', `${ty}px`);
+                        particle.style.width = `${Math.random() * 4 + 2}px`;
+                        particle.style.height = particle.style.width;
+                        particle.style.backgroundColor = color;
+                        particle.style.animationDelay = `${Math.random() * 0.2}s`;
+                        
+                        fireworkContainer.appendChild(particle);
+                        
+                        // 自动移除
+                        setTimeout(() => {
+                            if (particle.parentNode) {
+                                particle.parentNode.removeChild(particle);
+                            }
+                        }, 1200);
+                    }, Math.random() * 200);
+                }
+                
+                // 自动移除中心爆炸
+                setTimeout(() => {
+                    if (centerFirework.parentNode) {
+                        centerFirework.parentNode.removeChild(centerFirework);
+                    }
+                }, 1000);
+                
+            }, 1500);
+        }
+
+        // 触发惊喜效果
+        function triggerSurprise() {
+            if (hasTriggered) return;
+            hasTriggered = true;
+            surpriseBtn.disabled = true;
+            surpriseBtn.textContent = '正在解锁浪漫...';
+            surpriseBtn.classList.remove('hover:bg-tanabata-dark/90', 'hover:shadow-tanabata-pink/30');
+            surpriseBtn.classList.add('bg-tanabata-dark/70', 'cursor-not-allowed');
+
+            // 尝试播放音乐
+            bgm.play().then(() => {
+                isMusicPlaying = true;
+                musicControl.innerHTML = '<i class="fa fa-pause text-tanabata-dark"></i>';
+            }).catch(e => {
+                console.log("音乐自动播放被阻止");
+            });
+
+            // 1. 白天转黑夜
+            setTimeout(() => {
+                isNight = true;
+                body.classList.remove('bg-soft-gradient');
+                body.classList.add('bg-night');
+                
+                // 更新音乐控制按钮样式
+                musicControl.classList.add('night');
+                musicInfo.classList.add('night');
+                
+                // 文本/卡片颜色适配黑夜
+                mainTitle.classList.remove('text-tanabata-dark', 'text-glow');
+                mainTitle.classList.add('text-tanabata-gold', 'text-glow-night');
+                subTitle.classList.remove('text-tanabata-dark/80');
+                subTitle.classList.add('text-white/80');
+                decorIcons.querySelectorAll('i').forEach(icon => {
+                    icon.classList.remove('text-tanabata-pink', 'text-tanabata-gold');
+                    icon.classList.add('text-tanabata-gold');
+                });
+                wishCard.classList.add('card-night');
+                cardIcon.querySelector('i').classList.remove('text-tanabata-dark');
+                cardIcon.querySelector('i').classList.add('text-tanabata-gold');
+                poemText.classList.remove('text-tanabata-dark/90');
+                poemText.classList.add('text-white/90');
+                wishText.classList.remove('text-tanabata-dark/80');
+                wishText.classList.add('text-white/80');
+                copyright.classList.remove('text-tanabata-dark/60');
+                copyright.classList.add('text-white/40');
+            }, 500);
+
+            // 2. 自动放烟花（8次，间隔0.8秒）
+            setTimeout(() => {
+                let fireworkCount = 0;
+                const fireworkInterval = setInterval(() => {
+                    if (fireworkCount >= 8) {
+                        clearInterval(fireworkInterval);
+                        // 3. 烟花结束后显示文字
+                        setTimeout(() => {
+                            starText.style.opacity = 1;
+                            mainContent.style.opacity = 0.7;
+                        }, 1000);
+                        return;
+                    }
+                    createRealisticFirework();
+                    fireworkCount++;
+                }, 800);
+            }, 1500);
+        }
+
+        // 初始生成一些樱花
+        window.addEventListener('load', () => {
+            for (let i = 0; i < 20; i++) {
+                setTimeout(createSakuraPetal, i * 200);
+            }
+        });
+        
+        // 持续生成樱花
+        setInterval(createSakuraPetal, 500);
+        
+        surpriseBtn.addEventListener('click', triggerSurprise);
+    </script>
+</body>
+</html>
